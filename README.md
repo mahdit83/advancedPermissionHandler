@@ -1,15 +1,16 @@
 # Advanced Permission Handler Activity
-advancedPermissionHandlerActivity is an abstact Activty for handle all permission stuff. for using it add this line to gradle:
+advancedPermissionHandlerActivity is an abstact Activty for handle all permission stuff, pice of cake. It will be handle all for using it add this line to gradle:
 ```groovy
 compile 'ir.mtajik.android:advancedPermissionsHandler:1.0.0               
 ```
-And inherit your desired Activity from advancedPermissionHandlerActivity and 
+And inherit your desired Activity from advancedPermissionHandlerActivity and simply call one of ''''askForPermission'''' methods witch one with autoGenerate message ability for your given permissions (works for Farsi right now) and one with your custom message.
 After that simply call sendSms that have a Interface for all callbacks. smsId is a random unique auto generated Id that generated for every single sms that created by your app.
 In version 1.0.5 , i implement Builder design pattern. All the ```with``` parameters are optional. 
 ```java
 
 String[] permissions = new String[]{new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE}
- askForPermission(permissions , new PermissionCallBack() {
+
+askForPermission(permissions , new PermissionCallBack() {
                     
                     @Override
                     public void onPermissionsGranted() {  
