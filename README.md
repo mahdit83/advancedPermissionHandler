@@ -1,14 +1,11 @@
 # Advanced Permission Handler Activity
-advancedPermissionHandlerActivity is an abstact Activty for handle all permission stuff, pice of cake. It will be handle all for using it add this line to gradle:
-```groovy
-compile 'ir.mtajik.android:advancedPermissionsHandler:1.0.0               
-```
-And inherit your desired Activity from advancedPermissionHandlerActivity and simply call one of ''''askForPermission'''' methods witch one with autoGenerate message ability for your given permissions (works for Farsi right now) and one with your custom message.
-After that simply call sendSms that have a Interface for all callbacks. smsId is a random unique auto generated Id that generated for every single sms that created by your app.
-In version 1.0.5 , i implement Builder design pattern. All the ```with``` parameters are optional. 
+advancedPermissionHandlerActivity is an abstact Activty for handle all permission stuff, pice of cake. 
+
+Just inherit your desired Activity from advancedPermissionHandlerActivity and simply call one of ''''askForPermission'''' methods witch one with autoGenerate message ability for your given permissions (works for Farsi right now) and one with your custom message.
+
 ```java
 
-String[] permissions = new String[]{new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE}
+String[] permissions = new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE , ...}
 
 askForPermission(permissions , new PermissionCallBack() {
                     
@@ -23,16 +20,20 @@ askForPermission(permissions , new PermissionCallBack() {
                     }
                 });
 ```
+This small and wise lib will handle if permissions. show to user before and witch ones are permitted and witch ones are denied. 
+1. First ask for all permissions.
+2. Then try to aks again for ungranted-permissions with custom message and then ask for permission again.
+3. Then try to open settings for permissions if user set 'Do not ask me again'
+4. Finaly if user deny, onPermissionsDenied callback will calls.
+
+Sticky mode specifies that, if all these four steps happen in one session or not.
 
 
-This library created with MVP architecture and Uses Dagger2 as DI container with these dependencies:
+For using **advancedPermissionHandler** add this line to gradle:
 
 ```groovy
-compile 'com.google.dagger:dagger:2.7'
-annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
-```           
-           
-So if you use dagger2 make sure that use compatible dependencies. I hope this library would be useful and wait for your comments.
+compile 'ir.mtajik.android:advancedPermissionsHandler:1.0.0               
+```
 
 
 ![Mahdi Tajik](http://www.mahditajik.ir/wp-content/uploads/2015/03/sample-logo-MT22.png)
