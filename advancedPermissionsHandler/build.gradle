@@ -11,9 +11,9 @@ def devId = 'mahdi'
 def devName = 'Mahdi Tajik'
 def devEmail = 'mahdi.tajik@gmail.com'
 def libGroup = 'ir.mtajik.android'
-def libName = 'advancedsmsmanager'
-def libDescription = 'Advanced SMS manager for single and two sim-card phones'
-def libUrl = 'https://github.com/mahdit83/advancedSmsManager'
+def libName = 'advancedPermissionsHandler'
+def libDescription = 'Advanced permission-handler-activity that can handle all permission stuff like a piece of cake!'
+def libUrl = 'https://github.com/mahdit83/advancedPermissionHandlerActivity'
 def libGitUrl = "$libUrl" + ".git"
 def licName = 'The Apache Software License, Version 2.0'
 def licType = ["Apache-2.0"]
@@ -76,3 +76,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
+
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

@@ -1,4 +1,4 @@
-package ir.mtajik.android.advancedpermissionhandleractivity;
+package ir.mtajik.android.advancedPermissionsHandler;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is abstract so can not have instance 
+ * This class is abstract so can not have instance
  */
 public abstract class PermissionHandlerActivity extends AppCompatActivity implements ActivityCompat
         .OnRequestPermissionsResultCallback {

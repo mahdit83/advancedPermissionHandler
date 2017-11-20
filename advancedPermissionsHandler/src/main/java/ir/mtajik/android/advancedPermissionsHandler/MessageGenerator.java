@@ -1,4 +1,4 @@
-package ir.mtajik.android.advancedpermissionhandleractivity;
+package ir.mtajik.android.advancedPermissionsHandler;
 
 import android.Manifest;
 
