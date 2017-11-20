@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AdvancedPermissionHandlerActivity</string>
+    <string name="alert_pre">برای استفاده از این قابلیت، اجازه دسترسی به</string>
+    <string name="alert_post"> ضروری است</string>
+    <string name="toast_pre">برای استفاده از این قابلیت باید ابتدا اجازه دسترسی به</string>
+    <string name="toast_post"> در تنظیمات داده شود</string>
+    <string name="READ_EXTERNAL_STORAGE">خواندن کارت حافظه</string>
+    <string name="WRITE_EXTERNAL_STORAGE">نوشتن کارت حافظه</string>
+    <string name="SEND_SMS">ارسال پیام کوتاه</string>
+    <string name="RECEIVE_SMS">ردیافت پیام کوتاه</string>
 </resources>

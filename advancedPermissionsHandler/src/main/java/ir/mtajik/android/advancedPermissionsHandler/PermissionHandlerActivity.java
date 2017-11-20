@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
     private List<String> remainedPermissionsList = new ArrayList<>();
     private Context context;
     private AppCompatActivity mActivity = new AppCompatActivity();
+    private boolean mSticky = false;
+    private String customMessage;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -42,7 +45,8 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
                     //Got Permission
                     permissionCallBack.onPermissionsGranted();
                 } else {
-                    permissionCallBack.onPermissionsDenied(convertListToArray(remainedPermissionsList));
+                    permissionCallBack.onPermissionsDenied(convertListToArray
+                            (remainedPermissionsList));
                 }
             }
 
@@ -61,8 +65,13 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
                 if (remainedPermissionsList.size() == 0) {
                     permissionCallBack.onPermissionsGranted();
                 } else {
-                    permissionCallBack.onPermissionsDenied(convertListToArray
-                            (remainedPermissionsList));
+
+                    if (this.mSticky) {
+                        checkPermissionStuff();
+                    } else {
+                        permissionCallBack.onPermissionsDenied(convertListToArray
+                                (remainedPermissionsList));
+                    }
                 }
             }
         }
@@ -76,26 +85,27 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
      * @param message
      * @param permissionGranted
      */
-    public void askForPermission(String[] permissions, String message, PermissionCallBack
+    public void askForPermission(String[] permissions, String message, boolean sticky,
+                                 PermissionCallBack
             permissionGranted) {
 
-        initialize(permissions, message, permissionGranted);
+        initialize(permissions, message, sticky, permissionGranted);
         checkPermissionStuff();
     }
 
     /**
-     * Use this method if you want to lib auto generate
-     * message per for you permissions.
-     * This work just for Farsi at right moment.
+     * Use this method if you want to auto generate
+     * message for permissions.
+     * This works just for Farsi at right now.
      *
      * @param permissions
      * @param permissionGranted
      */
-    public void askForPermission(String[] permissions, PermissionCallBack
+    public void askForPermission(String[] permissions, boolean sticky, PermissionCallBack
             permissionGranted) {
 
 
-        initialize(permissions, MessageGenerator.generateMessageForThesePermissions(permissions),
+        initialize(permissions, null, sticky,
                 permissionGranted);
         checkPermissionStuff();
 
@@ -103,6 +113,10 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
     }
 
     public void openSettingsForPermission() {
+
+        Toast.makeText(this, MessageGenerator.makeToastDialogMessage(convertListToArray
+                (remainedPermissionsList), this), Toast.LENGTH_LONG).show();
+
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", this.getPackageName(), null);
         intent.setData(uri);
@@ -145,12 +159,11 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
             } else if (checkIfUserDeniedOneOfOurPermissionsBefore()) {
                 //Previously One Permission Request was cancelled with 'Don't Ask Again',
                 // Redirect to Settings after showing Information about why you need the permission
-                Toast.makeText(this, MessageGenerator.makeToastDialogMessage(convertListToArray
-                        (remainedPermissionsList)), Toast.LENGTH_LONG).show();
                 openSettingsForPermission();
             } else {
                 //just request the permission
-                Toast.makeText(this, MessageGenerator.makeToastDialogMessage(permissionsArray),
+                Toast.makeText(this, MessageGenerator.makeToastDialogMessage(permissionsArray,
+                        this),
                         Toast.LENGTH_SHORT).show();
                 askForPermission(permissionsArray);
             }
@@ -180,7 +193,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
         for (String permission :
                 permissionsArray) {
-            if(permissionStatus.getBoolean(permission, false)){
+            if (permissionStatus.getBoolean(permission, false)) {
                 ifJustOneIsDeniedForEver = true;
                 remainedPermissionsList.add(permission);
             }
@@ -222,12 +235,15 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         return oneNotGranted;
     }
 
-    private void initialize(String[] permissions, String permissionName, PermissionCallBack
+    private void initialize(String[] permissions, @Nullable String message, boolean sticky,
+                            PermissionCallBack
             mPermissionCallBack) {
-        mActivity = this;
-        permissionCallBack = mPermissionCallBack;
-        context = this;
-        permissionsArray = permissions;
+        this.mActivity = this;
+        this.permissionCallBack = mPermissionCallBack;
+        this.context = this;
+        this.permissionsArray = permissions;
+        this.mSticky = sticky;
+        this.customMessage = customMessage;
 
         permissionStatus = this.getSharedPreferences("permissionStatus",
                 this.MODE_PRIVATE);
@@ -235,14 +251,8 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
     private void showPermissionDialog(final String[] permissions) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setMessage(MessageGenerator.makeAlertDialogMessage(permissions))
-                .setNegativeButton("CANCEL", new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialog.setMessage(MessageGenerator.makeAlertDialogMessage(permissions, this)
+        ).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 askForPermission(permissions);
@@ -252,8 +262,12 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (permissionCallBack != null) {
-                    permissionCallBack.onPermissionsDenied(permissions);
+                if (mSticky) {
+                    openSettingsForPermission();
+                } else {
+                    if (permissionCallBack != null) {
+                        permissionCallBack.onPermissionsDenied(permissions);
+                    }
                 }
             }
         }).setIcon(android.R.drawable.ic_dialog_alert)
@@ -268,6 +282,5 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         void onPermissionsGranted();
 
         void onPermissionsDenied(String[] deniedPermissions);
-
     }
 }

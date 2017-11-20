@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 def majorNumber = 1
 def minorNumber = 0
-def patchNumber = 0
+def patchNumber = 1
 
 def _versionCode = 100 * majorNumber + 100 * minorNumber + patchNumber
 def _versionName = "$majorNumber" + "." + "$minorNumber" + "." + "$patchNumber"
@@ -13,7 +13,7 @@ def devEmail = 'mahdi.tajik@gmail.com'
 def libGroup = 'ir.mtajik.android'
 def libName = 'advancedPermissionsHandler'
 def libDescription = 'Advanced permission-handler-activity that can handle all permission stuff like a piece of cake!'
-def libUrl = 'https://github.com/mahdit83/advancedPermissionHandlerActivity'
+def libUrl = 'https://github.com/mahdit83/advancedPermissionHandler'
 def libGitUrl = "$libUrl" + ".git"
 def licName = 'The Apache Software License, Version 2.0'
 def licType = ["Apache-2.0"]
@@ -50,7 +50,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 26
         versionCode _versionCode
         versionName "$_versionName"
@@ -77,5 +77,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
 
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//these needed for add task like 'install' and 'bintrayUpload' to gradle
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

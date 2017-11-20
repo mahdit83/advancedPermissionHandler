@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import ir.mtajik.android.advancedPermissionsHandler.PermissionHandlerActivity;
 
@@ -50,20 +51,20 @@ public class MainActivity extends PermissionHandlerActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                askForPermission(new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE}, new PermissionCallBack() {
-
-
+                askForPermission(new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE}, false, new PermissionCallBack() {
 
                     @Override
                     public void onPermissionsGranted() {
-                        Log.i("mahdi", "onPermissionsGranted: ");
+
+                        Toast.makeText(MainActivity.this, "onPermissionsGranted", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onPermissionsDenied(String[] permissions) {
-                        Log.i("mahdi", "onPermissionsDenied: ");
+                        Toast.makeText(MainActivity.this, "onPermissionsDenied ", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
     }
