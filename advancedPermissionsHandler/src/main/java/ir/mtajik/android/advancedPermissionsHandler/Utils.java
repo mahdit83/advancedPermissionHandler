@@ -2,6 +2,7 @@ package ir.mtajik.android.advancedPermissionsHandler;
 
 import java.util.List;
 
+
 public class Utils {
 
     public static String[] convertListToArray(List<String> list) {
