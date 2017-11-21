@@ -18,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ir.mtajik.android.advancedPermissionsHandler.Utils.convertListToArray;
+
 /**
  * This class is abstract so can not have instance
  */
@@ -121,12 +123,6 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         Uri uri = Uri.fromParts("package", this.getPackageName(), null);
         intent.setData(uri);
         this.startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
-
-    }
-
-    public String[] convertListToArray(List<String> list) {
-        String[] converted = new String[remainedPermissionsList.size()];
-        return list.toArray(converted);
 
     }
 
