@@ -36,7 +36,7 @@ Sticky mode specifies that, if all these four steps happen in one session or not
 For using **advancedPermissionHandler** add this line to gradle:
 
 ```groovy
-compile 'ir.mtajik.android:advancedPermissionsHandler:1.0.0               
+compile 'ir.mtajik.android:advancedPermissionsHandler:1.0.2               
 ```
 
 ![Mahdi Tajik](http://www.mahditajik.ir/wp-content/uploads/2015/03/sample-logo-MT22.png)
