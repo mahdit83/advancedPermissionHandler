@@ -51,7 +51,7 @@ public class MainActivity extends PermissionHandlerActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                askForPermission(new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE}, false, new PermissionCallBack() {
+                askForPermission(new String[]{Manifest.permission.SEND_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.READ_EXTERNAL_STORAGE ,Manifest.permission.USE_SIP , Manifest.permission.GET_ACCOUNTS} ,false, new PermissionCallBack() {
 
                     @Override
                     public void onPermissionsGranted() {

@@ -18,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ir.mtajik.android.advancedPermissionsHandler.Utils.convertListToArray;
+
 /**
  * This class is abstract so can not have instance
  */
@@ -40,8 +42,11 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PERMISSION_SETTING) {
 
+            //we need just update status here
+            updateAllPermissionStatusAndCheckIfNotGrantedOneIsExists();
+
             if (permissionCallBack != null) {
-                if (!checkIfNotGrantedOneOfPermissions()) {
+                if (!updateAllPermissionStatusAndCheckIfNotGrantedOneIsExists()) {
                     //Got Permission
                     permissionCallBack.onPermissionsGranted();
                 } else {
@@ -87,7 +92,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
      */
     public void askForPermission(String[] permissions, String message, boolean sticky,
                                  PermissionCallBack
-            permissionGranted) {
+                                         permissionGranted) {
 
         initialize(permissions, message, sticky, permissionGranted);
         checkPermissionStuff();
@@ -114,8 +119,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
     public void openSettingsForPermission() {
 
-        Toast.makeText(this, MessageGenerator.makeToastDialogMessage(convertListToArray
-                (remainedPermissionsList), this), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, messageSwitcherForToast(), Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", this.getPackageName(), null);
@@ -124,10 +128,22 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
     }
 
-    public String[] convertListToArray(List<String> list) {
-        String[] converted = new String[remainedPermissionsList.size()];
-        return list.toArray(converted);
+    //if custom message is null. so generate auto message
+    @NonNull
+    private String messageSwitcherForToast() {
 
+        return customMessage == null ? MessageGenerator.makeToastDialogMessage
+                    (convertListToArray
+                    (remainedPermissionsList), this) : customMessage;
+    }
+
+    //if custom message is null. so generate auto message for alert dialog
+    @NonNull
+    private String messageSwitcherForDialog() {
+
+        return customMessage == null ? MessageGenerator.makeAlertDialogMessage
+                (convertListToArray
+                        (remainedPermissionsList), this) : customMessage;
     }
 
     private void updatePermissionRequestStatus(String[] permissions, int[] grantResults) {
@@ -147,7 +163,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
     private void checkPermissionStuff() {
 
 
-        if (Build.VERSION.SDK_INT < 23 || checkIfNotGrantedOneOfPermissions()) {
+        if (Build.VERSION.SDK_INT < 23 || updateAllPermissionStatusAndCheckIfNotGrantedOneIsExists()) {
 
             if (shouldShowRequestPermissionRationaleForAll()) {
                 //true means user not allowed the permission but may we can convince him/her
@@ -162,8 +178,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
                 openSettingsForPermission();
             } else {
                 //just request the permission
-                Toast.makeText(this, MessageGenerator.makeToastDialogMessage(permissionsArray,
-                        this),
+                Toast.makeText(this, messageSwitcherForToast(),
                         Toast.LENGTH_SHORT).show();
                 askForPermission(permissionsArray);
             }
@@ -218,7 +233,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
         return oneNotGranted;
     }
 
-    private boolean checkIfNotGrantedOneOfPermissions() {
+    private boolean updateAllPermissionStatusAndCheckIfNotGrantedOneIsExists() {
 
         remainedPermissionsList.clear();
         boolean oneNotGranted = false;
@@ -237,13 +252,13 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
     private void initialize(String[] permissions, @Nullable String message, boolean sticky,
                             PermissionCallBack
-            mPermissionCallBack) {
+                                    mPermissionCallBack) {
         this.mActivity = this;
         this.permissionCallBack = mPermissionCallBack;
         this.context = this;
         this.permissionsArray = permissions;
         this.mSticky = sticky;
-        this.customMessage = customMessage;
+        this.customMessage = message;
 
         permissionStatus = this.getSharedPreferences("permissionStatus",
                 this.MODE_PRIVATE);
@@ -251,7 +266,7 @@ public abstract class PermissionHandlerActivity extends AppCompatActivity implem
 
     private void showPermissionDialog(final String[] permissions) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setMessage(MessageGenerator.makeAlertDialogMessage(permissions, this)
+        alertDialog.setMessage(messageSwitcherForDialog()
         ).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
