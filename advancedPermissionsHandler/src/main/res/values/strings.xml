@@ -10,14 +10,14 @@
     <string name="RECEIVE_SMS">ردیافت پیام کوتاه</string>
     <string name="GET_ACCOUNTS">گرفتن حساب های کاربری</string>
     <string name="ACCESS_FINE_LOCATION">دسترسی به موقعیت دقیق</string>
-    <string name="ACCESS_COARSE_LOCATION"></string>
+    <string name="ACCESS_COARSE_LOCATION">دسترسی به موقعیت کلی</string>
     <string name="RECORD_AUDIO">ضبط صدا</string>
     <string name="READ_PHONE_STATE">خواندن وضعیت تلفن</string>
     <string name="CALL_PHONE">تماس</string>
     <string name="READ_CALL_LOG">خواندن گزارش تماس ها</string>
     <string name="WRITE_CALL_LOG">نوشتن گزارش تماس ها</string>
     <string name="ADD_VOICEMAIL">اضافه کردن ایمیل صوتی</string>
-    <string name="USE_SIP"></string>
+    <string name="USE_SIP">استفاده از SIP</string>
     <string name="PROCESS_OUTGOING_CALLS">ذخیره تماس های خروجی</string>
     <string name="BODY_SENSORS">سنسورهای حرکتی</string>
     <string name="READ_SMS">خواندن پیام کوتاه</string>
