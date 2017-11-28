@@ -24,6 +24,35 @@ class MessageGenerator {
         //android dangerous permissions
 
         /*
+READ_CALENDAR
+WRITE_CALENDAR
+CAMERA
+READ_CONTACTS
+WRITE_CONTACTS
+GET_ACCOUNTS
+ACCESS_FINE_LOCATION
+ACCESS_COARSE_LOCATION
+RECORD_AUDIO
+READ_PHONE_STATE
+CALL_PHONE
+READ_CALL_LOG
+WRITE_CALL_LOG
+ADD_VOICEMAIL
+USE_SIP
+PROCESS_OUTGOING_CALLS
+BODY_SENSORS
+SEND_SMS
+RECEIVE_SMS
+READ_SMS
+RECEIVE_WAP_PUSH
+RECEIVE_MMS
+READ_EXTERNAL_STORAGE
+WRITE_EXTERNAL_STORAGE
+         */
+
+        //android not dangerous permissions
+
+        /*
         ACCESS_LOCATION_EXTRA_COMMANDS
         ACCESS_NETWORK_STATE
         ACCESS_NOTIFICATION_POLICY
@@ -144,7 +173,8 @@ class MessageGenerator {
         String alertMsgInDialog_pre = context.getResources().getString(R.string.alert_pre);
         String alertMsgInDialog_post = context.getResources().getString(R.string.alert_post);
 
-        return alertMsgInDialog_pre + " " + generateMessageForThesePermissions(permissions, context) + " " +
+        return alertMsgInDialog_pre + " " + generateMessageForThesePermissions(permissions,
+                context) + " " +
                 alertMsgInDialog_post;
     }
 
