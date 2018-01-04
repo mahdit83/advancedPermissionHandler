@@ -1,7 +1,7 @@
 # Advanced Permission Handler
 This library have an abstact Activty, **advancedPermissionHandlerActivity** is that handle all permission stuff, pice of cake. Main idea is from my dear friend ![Ali Nemati hayati](https://github.com/alinhayati). 
 
-Just inherit your desired Activity from **advancedPermissionHandlerActivity** and simply call one of ````askForPermission()```` methods which one with auto-generate message ability for your given permissions (works for Farsi right now) and one with your custom message.
+Just inherit your desired Activity from **PermissionHandlerActivity** and simply call one of ````askForPermission()```` methods which one with auto-generate message ability for your given permissions (works for Farsi right now) and one with your custom message.
 
 ```java
 
